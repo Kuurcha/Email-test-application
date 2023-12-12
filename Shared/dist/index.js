@@ -1,12 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SharedClass = void 0;
-class SharedClass {
-    constructor(message) {
-        this.message = message;
-    }
-    printMessage() {
-        console.log(this.message);
-    }
-}
-exports.SharedClass = SharedClass;
+var sharedclass_1 = require("./sharedclass");
+Object.defineProperty(exports, "SharedClass", { enumerable: true, get: function () { return sharedclass_1.SharedClass; } });

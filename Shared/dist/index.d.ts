@@ -1,5 +1,2 @@
-export declare class SharedClass {
-    message: string;
-    constructor(message: string);
-    printMessage(): void;
-}
+export { SharedClass } from "./sharedclass";
+export { UserInfo } from "./models/emailJsonModel";
