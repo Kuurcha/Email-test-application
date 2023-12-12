@@ -5,8 +5,8 @@
   },
   "editor.formatOnSave": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "prettier.configPath": "../.prettierrc",
+  "prettier.configPath": "../../.prettierrc",
   "eslint.options": {
-    "configFile": "../.eslintrc.json"
+    "configFile": "../../.eslintrc.json"
   }
 }

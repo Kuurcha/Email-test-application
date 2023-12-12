@@ -12,7 +12,8 @@
   "author": "Kurcha",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "shared-module": "../shared"
   },
   "devDependencies": {
     "eslint": "^8.55.0",
