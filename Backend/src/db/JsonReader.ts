@@ -1,10 +1,10 @@
 import { UserInfo } from "shared-module";
 import fs from "fs/promises";
 export class JsonReader {
-  static async parseJsonFromFile(filePath: string): Promise<UserInfo | null> {
+  static async parseJsonFromFile(filePath: string): Promise<UserInfo[] | null> {
     try {
       const jsonString = await fs.readFile(filePath, "utf-8");
-      const parsed: UserInfo = JSON.parse(jsonString);
+      const parsed: UserInfo[] = JSON.parse(jsonString);
       return parsed;
     } catch (error: any) {
       if (error instanceof SyntaxError) {
@@ -14,7 +14,7 @@ export class JsonReader {
       } else {
         console.error("Error:", error.message);
       }
+      throw error;
     }
-    return null;
   }
 }
