@@ -29,11 +29,11 @@ class JsonReader {
                 else if (error instanceof TypeError) {
                     console.error("Error parsing JSON: Input is not a valid string");
                 }
-                else {
+                if (error instanceof Error) {
                     console.error("Error:", error.message);
                 }
+                throw error;
             }
-            return null;
         });
     }
 }

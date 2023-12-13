@@ -1,11 +1,12 @@
 import { UserInfo } from "shared-module";
 import { JsonReader } from "../db/JsonReader";
+import { ValidationError } from "../errors/ValidationError";
 
 export class UserInfoService {
   jsonReader: JsonReader = new JsonReader();
 
-  findAllMatchingRecords(userInfoToFind: UserInfo): UserInfo[] {
-    JsonReader.parseJsonFromFile("./resources/database.json")
+  async findAllMatchingRecords(userInfoToFind: UserInfo): Promise<UserInfo[]> {
+    return JsonReader.parseJsonFromFile("./resources/database.json")
       .then((parsedResult) => {
         if (parsedResult) {
           return parsedResult.filter(
@@ -22,7 +23,5 @@ export class UserInfoService {
         console.error(`Error during parsing: ${error.message}`);
         throw error;
       });
-
-    return [];
   }
 }
