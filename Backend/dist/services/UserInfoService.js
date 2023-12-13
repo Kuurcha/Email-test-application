@@ -8,17 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserInfoService = void 0;
 const JsonReader_1 = require("../db/JsonReader");
 const ValidationError_1 = require("../errors/ValidationError");
+const validator_1 = __importDefault(require("validator"));
 class UserInfoService {
     constructor() {
         this.jsonReader = new JsonReader_1.JsonReader();
+        this.onlyNumbersRegex = /^[0-9]+$/;
     }
     findAllMatchingRecords(userInfoToFind) {
         return __awaiter(this, void 0, void 0, function* () {
-            JsonReader_1.JsonReader.parseJsonFromFile("./resources/database.json")
+            return JsonReader_1.JsonReader.parseJsonFromFile("./resources/database.json")
                 .then((parsedResult) => {
                 if (parsedResult) {
                     return parsedResult.filter((userInfo) => userInfo.email === userInfoToFind.email &&
@@ -33,8 +38,13 @@ class UserInfoService {
                 console.error(`Error during parsing: ${error.message}`);
                 throw error;
             });
-            return [];
         });
+    }
+    isStringOnlyNumbers(input) {
+        return this.onlyNumbersRegex.test(input);
+    }
+    validateEmail(emailToVerify) {
+        return validator_1.default.isEmail(emailToVerify);
     }
 }
 exports.UserInfoService = UserInfoService;

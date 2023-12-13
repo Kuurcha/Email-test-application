@@ -2,6 +2,7 @@ import { UserInfo } from "shared-module";
 import { UserInfoService } from "../services/UserInfoService";
 import { Request, Response } from "express";
 import { ValidationError } from "../errors/ValidationError";
+
 export class UserInfoController {
   private userInfoService: UserInfoService;
   constructor() {
@@ -10,6 +11,13 @@ export class UserInfoController {
   findMatchingRecords = async (req: Request, res: Response) => {
     try {
       const userInfoToFind: UserInfo = req.body;
+
+      if (userInfoToFind.email && !this.userInfoService.validateEmail(userInfoToFind.email))
+        return res.status(400).json({ error: "Invalid email", message: "The provided email is not valid." });
+
+      if (userInfoToFind.number && !this.userInfoService.isStringOnlyNumbers(userInfoToFind.number))
+        return res.status(400).json({ error: "Invalid number", message: "Number should contain only numbers." });
+
       const matchingRecords = await this.userInfoService.findAllMatchingRecords(userInfoToFind);
       res.status(200).json(matchingRecords);
     } catch (error) {
