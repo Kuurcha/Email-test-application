@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import "./SearchForm.css";
-import { FormatHelper, UserInfo } from "shared";
+import { UserInfo } from "shared/index";
 import { findMatchingRecords } from "src/services/RequestServices";
+import { validateEmail } from "src/Helper/validateEmail";
 type ApiResponseCallback = (data: UserInfo[]) => void;
 const SearchForm = ({ onApiResponse }: { onApiResponse: ApiResponseCallback }) => {
   const [email, setEmail] = useState("");
@@ -38,7 +39,7 @@ const SearchForm = ({ onApiResponse }: { onApiResponse: ApiResponseCallback }) =
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
-    const isValid = FormatHelper.validateEmail(newEmail);
+    const isValid = validateEmail(newEmail);
     setEmail(newEmail);
     setIsValidEmail(isValid);
   };

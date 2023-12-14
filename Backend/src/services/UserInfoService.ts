@@ -1,7 +1,6 @@
-import { UserInfo } from "shared-module";
 import { JsonReader } from "../db/JsonReader";
 import { ValidationError } from "../errors/ValidationError";
-
+import { UserInfo } from "shared/index";
 export class UserInfoService {
   jsonReader: JsonReader = new JsonReader();
   private readonly onlyNumbersRegex = /^[0-9]+$/;

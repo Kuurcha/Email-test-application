@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./UserTable.css";
 import { Table } from "react-bootstrap";
-import { UserInfo } from "shared";
-
+import { UserInfo } from "shared/index";
 interface UserTableProps {
   users: UserInfo[];
 }

@@ -4,7 +4,7 @@ import "./App.css";
 import Container from "react-bootstrap/esm/Container";
 import UserTable from "./components/ResultsComponent/UserTable";
 import SearchForm from "./components/SearchForm/SearchForm";
-import { UserInfo } from "shared";
+import { UserInfo } from "shared/index";
 
 function App() {
   const [userInfo, setUserInfo] = useState<UserInfo[] | undefined>(undefined);

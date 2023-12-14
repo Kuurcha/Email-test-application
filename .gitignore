@@ -2,6 +2,7 @@
 
 # dependencies
 node_modules/
+
 /.pnp
 .pnp.js
 dist/
@@ -18,7 +19,8 @@ dist/
 .env.test.local
 .env.production.local
 package-lock.json
-
+**/package-lock.json
+/Backend/package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

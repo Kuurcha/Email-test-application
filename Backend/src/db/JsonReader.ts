@@ -1,4 +1,4 @@
-import { UserInfo } from "shared-module";
+import { UserInfo } from "shared/index";
 import fs from "fs/promises";
 export class JsonReader {
   static async parseJsonFromFile(filePath: string): Promise<UserInfo[] | null> {

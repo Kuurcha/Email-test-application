@@ -1,4 +1,4 @@
-import { UserInfo } from "shared";
+import { UserInfo } from "shared/index";
 
 const API_BASE_URL = "http://localhost:4000";
 const mapResponseToUserInfo = async (response: Response): Promise<UserInfo[]> => {
