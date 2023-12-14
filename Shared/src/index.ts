@@ -1,2 +1,2 @@
-export { SharedClass } from "./sharedclass";
 export { UserInfo } from "./models/emailJsonModel";
+export { FormatHelper } from "./formatHelper";

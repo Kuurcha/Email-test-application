@@ -1,4 +1,4 @@
-export declare type UserInfo = {
+export type UserInfo = {
     email: string;
-    number: string;
+    number?: string;
 };

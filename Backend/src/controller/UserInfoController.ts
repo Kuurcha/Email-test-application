@@ -1,7 +1,7 @@
-import { UserInfo } from "shared-module";
 import { UserInfoService } from "../services/UserInfoService";
 import { Request, Response } from "express";
 import { ValidationError } from "../errors/ValidationError";
+import { FormatHelper, UserInfo } from "shared";
 
 export class UserInfoController {
   private userInfoService: UserInfoService;
@@ -12,7 +12,7 @@ export class UserInfoController {
     try {
       const userInfoToFind: UserInfo = req.body;
 
-      if (userInfoToFind.email && !this.userInfoService.validateEmail(userInfoToFind.email))
+      if (userInfoToFind.email && !FormatHelper.validateEmail(userInfoToFind.email))
         return res.status(400).json({ error: "Invalid email", message: "The provided email is not valid." });
 
       if (userInfoToFind.number && !this.userInfoService.isStringOnlyNumbers(userInfoToFind.number))

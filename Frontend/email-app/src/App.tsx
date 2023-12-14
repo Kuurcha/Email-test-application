@@ -2,8 +2,8 @@ import React from "react";
 
 import "./App.css";
 import Container from "react-bootstrap/esm/Container";
-import SearchForm from "./components/SearchForm/SearchForm";
 import UserTable from "./components/ResultsComponent/UserTable";
+import SearchForm from "./components/SearchForm/SearchForm";
 
 function App() {
   return (

@@ -8,14 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserInfoService = void 0;
 const JsonReader_1 = require("../db/JsonReader");
 const ValidationError_1 = require("../errors/ValidationError");
-const validator_1 = __importDefault(require("validator"));
 class UserInfoService {
     constructor() {
         this.jsonReader = new JsonReader_1.JsonReader();
@@ -42,9 +38,6 @@ class UserInfoService {
     }
     isStringOnlyNumbers(input) {
         return this.onlyNumbersRegex.test(input);
-    }
-    validateEmail(emailToVerify) {
-        return validator_1.default.isEmail(emailToVerify);
     }
 }
 exports.UserInfoService = UserInfoService;

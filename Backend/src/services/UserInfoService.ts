@@ -2,8 +2,6 @@ import { UserInfo } from "shared-module";
 import { JsonReader } from "../db/JsonReader";
 import { ValidationError } from "../errors/ValidationError";
 
-import validator from "validator";
-
 export class UserInfoService {
   jsonReader: JsonReader = new JsonReader();
   private readonly onlyNumbersRegex = /^[0-9]+$/;
@@ -30,9 +28,5 @@ export class UserInfoService {
 
   isStringOnlyNumbers(input: string): boolean {
     return this.onlyNumbersRegex.test(input);
-  }
-
-  validateEmail(emailToVerify: string): boolean {
-    return validator.isEmail(emailToVerify);
   }
 }

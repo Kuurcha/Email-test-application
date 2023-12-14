@@ -15,8 +15,7 @@
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "shared-module": "../shared",
-    "typescript": "^4.9.5",
+    "shared": "file:../../Shared",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -45,6 +44,7 @@
   },
   "devDependencies": {
     "eslint": "^8.55.0",
-    "eslint-plugin-prettier": "^5.0.1"
+    "eslint-plugin-prettier": "^5.0.1",
+    "typescript": "^5.3.3"
   }
 }
