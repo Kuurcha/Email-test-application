@@ -12,16 +12,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserInfoController = void 0;
 const UserInfoService_1 = require("../services/UserInfoService");
 const ValidationError_1 = require("../errors/ValidationError");
-const shared_module_1 = require("shared-module");
+const shared_1 = require("shared");
 class UserInfoController {
     constructor() {
         this.findMatchingRecords = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const userInfoToFind = req.body;
-                if (userInfoToFind.email && !shared_module_1.FormatHelper.validateEmail(userInfoToFind.email))
+                const requestedEmail = req.query.email;
+                const requestedNumber = req.query.number;
+                if (requestedEmail && !shared_1.FormatHelper.validateEmail(requestedEmail))
                     return res.status(400).json({ error: "Invalid email", message: "The provided email is not valid." });
-                if (userInfoToFind.number && !this.userInfoService.isStringOnlyNumbers(userInfoToFind.number))
+                if (requestedNumber && !this.userInfoService.isStringOnlyNumbers(requestedNumber))
                     return res.status(400).json({ error: "Invalid number", message: "Number should contain only numbers." });
+                const userInfoToFind = {
+                    email: requestedEmail,
+                    number: requestedNumber,
+                };
                 const matchingRecords = yield this.userInfoService.findAllMatchingRecords(userInfoToFind);
                 res.status(200).json(matchingRecords);
             }
