@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import { Table } from "react-bootstrap";
+import { UserInfo } from "shared";
 
-const UserTable = () => {
-  const [users, setUsers] = useState<any[]>([]);
+interface UserTableProps {
+  users: UserInfo[];
+}
+const UserTable: React.FC<UserTableProps> = ({ users }) => {
   return (
     <>
       {users.length > 0 && (
@@ -11,14 +14,14 @@ const UserTable = () => {
           <thead>
             <tr>
               <th>Email</th>
-              {/* Add other necessary headers for data */}
+              <th>Number</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id}>
+              <tr key={user.email}>
                 <td>{user.email}</td>
-                {/* Add other necessary cells for data */}
+                <td>{user.number}</td>
               </tr>
             ))}
           </tbody>
