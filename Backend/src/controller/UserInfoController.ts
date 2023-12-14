@@ -10,13 +10,19 @@ export class UserInfoController {
   }
   findMatchingRecords = async (req: Request, res: Response) => {
     try {
-      const userInfoToFind: UserInfo = req.body;
+      const requestedEmail = req.query.email as string | undefined;
+      const requestedNumber = req.query.number as string | undefined;
 
-      if (userInfoToFind.email && !FormatHelper.validateEmail(userInfoToFind.email))
+      if (requestedEmail && !FormatHelper.validateEmail(requestedEmail))
         return res.status(400).json({ error: "Invalid email", message: "The provided email is not valid." });
 
-      if (userInfoToFind.number && !this.userInfoService.isStringOnlyNumbers(userInfoToFind.number))
+      if (requestedNumber && !this.userInfoService.isStringOnlyNumbers(requestedNumber))
         return res.status(400).json({ error: "Invalid number", message: "Number should contain only numbers." });
+
+      const userInfoToFind: UserInfo = {
+        email: requestedEmail as string,
+        number: requestedNumber,
+      };
 
       const matchingRecords = await this.userInfoService.findAllMatchingRecords(userInfoToFind);
       res.status(200).json(matchingRecords);

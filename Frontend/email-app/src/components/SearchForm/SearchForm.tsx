@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import "./SearchForm.css";
-import { FormatHelper } from "shared";
+import { FormatHelper, UserInfo } from "shared";
 
 const SearchForm = () => {
   const [email, setEmail] = useState("");
@@ -11,11 +11,33 @@ const SearchForm = () => {
     return input.replace(/\D/g, "");
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (number) {
-      const unformattedValue = removeNonDigitCharacters(number);
-      console.log("Submitted value:", unformattedValue);
+
+    if (isValidEmail) {
+      const requestData: UserInfo = { email };
+      if (number) requestData.number = removeNonDigitCharacters(number);
+      try {
+        const queryString: string = `email=${encodeURIComponent(requestData.email)}${
+          requestData.number ? `&number=${encodeURIComponent(requestData.number)}` : ""
+        }`;
+
+        const response = await fetch(`http://localhost:4000/find-matching-records?${queryString}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("API Response:", data);
+        } else {
+          console.error("API Error:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Fetch Error:", error);
+      }
     }
   };
 
