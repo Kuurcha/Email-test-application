@@ -24,25 +24,30 @@ const mapResponseToUserInfo = async (response: Response): Promise<UserInfo[]> =>
   }
 };
 
-export const findMatchingRecords = async (requestData: UserInfo): Promise<UserInfo[]> => {
+export const findMatchingRecords = async (requestData: UserInfo, signal: AbortSignal): Promise<UserInfo[]> => {
   try {
-    const queryString: string = `email=${encodeURIComponent(requestData.email)}${
-      requestData.number ? `&number=${encodeURIComponent(requestData.number)}` : ""
-    }`;
+    const params = new URLSearchParams();
+    params.append("email", encodeURIComponent(requestData.email));
+    if (requestData.number) {
+      params.append("number", encodeURIComponent(requestData.number));
+    }
 
-    const response = await fetch(`${API_BASE_URL}/find-matching-records?${queryString}`, {
+    const response = await fetch(`${API_BASE_URL}/find-matching-records?${params.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
+      signal: signal,
     });
 
     if (response.ok) {
       return await mapResponseToUserInfo(response);
     } else {
-      throw new Error(`API Error: ${response.statusText}`);
+      const errorResponse = await response.json();
+      const errorMessage = errorResponse.message || response.statusText;
+      throw new Error(errorMessage);
     }
   } catch (error) {
-    throw new Error(`Fetch Error: ${error}`);
+    throw new Error(` ${error}`);
   }
 };

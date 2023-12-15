@@ -1,0 +1,31 @@
+.bottom-popup {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -30%;
+  width: 30%;
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.2);
+  transition: bottom 0.3s ease-in-out;
+  font-size: 20px;
+}
+
+.bottom-popup.visible {
+  bottom: 0;
+}
+
+.popup-content {
+  padding: 16px;
+}
+
+button {
+  margin-top: 8px;
+  background-color: #282c34;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4a4f5b;
+}

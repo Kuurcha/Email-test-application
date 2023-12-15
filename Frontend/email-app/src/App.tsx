@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import "./App.css";
 import Container from "react-bootstrap/esm/Container";
 import UserTable from "./components/ResultsComponent/UserTable";

@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "node dist/index.js",
-    "debug": "npm run build && node dist/index.js"
+    "start": "node dist/Backend/src/index.js",
+    "debug": "npm run build && node --inspect dist/Backend/src/index.js"
   },
   "author": "Kurcha",
   "license": "ISC",

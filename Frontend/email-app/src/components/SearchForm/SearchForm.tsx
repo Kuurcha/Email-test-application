@@ -1,25 +1,45 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import "./SearchForm.css";
 import { UserInfo } from "shared/index";
 import { findMatchingRecords } from "src/services/RequestServices";
 import { validateEmail } from "src/Helper/validateEmail";
+import BottomPopup from "../BottomPopup/BottomPopup";
 type ApiResponseCallback = (data: UserInfo[]) => void;
 const SearchForm = ({ onApiResponse }: { onApiResponse: ApiResponseCallback }) => {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [number, setNumber] = useState<string | undefined>(undefined);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
   const removeNonDigitCharacters = (input: string): string => {
     return input.replace(/\D/g, "");
   };
 
+  const handleTogglePopup = (isVisible: boolean) => {
+    setPopupVisible(isVisible);
+  };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    onApiResponse([]);
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
+    const signal = abortControllerRef.current.signal;
     if (isValidEmail) {
-      const requestData: UserInfo = { email };
-      if (number) requestData.number = removeNonDigitCharacters(number);
-      onApiResponse(await findMatchingRecords(requestData));
+      try {
+        const requestData: UserInfo = { email };
+        if (number) requestData.number = removeNonDigitCharacters(number);
+        onApiResponse(await findMatchingRecords(requestData, signal));
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(`Error during API request: ${error.message}`);
+          setErrorMessage(error.message);
+          handleTogglePopup(true);
+        }
+      }
     }
   };
 
@@ -44,29 +64,34 @@ const SearchForm = ({ onApiResponse }: { onApiResponse: ApiResponseCallback }) =
     setIsValidEmail(isValid);
   };
 
+  const [popupVisible, setPopupVisible] = useState(false);
+
   return (
-    <Form onSubmit={handleSubmit} className="d-flex flex-column align-items-center form-container border p-4 m-auto">
-      <Form.Group controlId="formEmail" className="w-100">
-        <Form.Label>Email (required)</Form.Label>
-        <Form.Control
-          type="email"
-          placeholder="Enter email"
-          value={email}
-          onChange={handleEmailChange}
-          isInvalid={!isValidEmail}
-          required
-        />
-      </Form.Group>
+    <div>
+      <Form onSubmit={handleSubmit} className="d-flex flex-column align-items-center form-container border p-4 m-auto">
+        <Form.Group controlId="formEmail" className="w-100">
+          <Form.Label>Email (required)</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={handleEmailChange}
+            isInvalid={!isValidEmail}
+            required
+          />
+        </Form.Group>
 
-      <Form.Group controlId="formNumber" className="w-100">
-        <Form.Label>Number (optional)</Form.Label>
-        <Form.Control type="text" placeholder="Enter number" value={number || ""} onChange={handleInputChange} />
-      </Form.Group>
+        <Form.Group controlId="formNumber" className="w-100">
+          <Form.Label>Number (optional)</Form.Label>
+          <Form.Control type="text" placeholder="Enter number" value={number || ""} onChange={handleInputChange} />
+        </Form.Group>
 
-      <Button variant="secondary" className="mt-2" type="submit">
-        Submit
-      </Button>
-    </Form>
+        <Button variant="secondary" className="mt-2" type="submit">
+          Submit
+        </Button>
+      </Form>
+      <BottomPopup isVisible={popupVisible} onToggleVisibility={handleTogglePopup} content={errorMessage} />
+    </div>
   );
 };
 

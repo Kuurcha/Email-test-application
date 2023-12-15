@@ -13,18 +13,13 @@ export class UserInfoController {
       const requestedEmail = req.query.email as string | undefined;
       const requestedNumber = req.query.number as string | undefined;
 
-      // if (requestedEmail && !FormatHelper.validateEmail(requestedEmail))
-      //   return res.status(400).json({ error: "Invalid email", message: "The provided email is not valid." });
-
-      // if (requestedNumber && !this.userInfoService.isStringOnlyNumbers(requestedNumber))
-      //   return res.status(400).json({ error: "Invalid number", message: "Number should contain only numbers." });
-
       const userInfoToFind: UserInfo = {
         email: requestedEmail as string,
         number: requestedNumber,
       };
 
       const matchingRecords = await this.userInfoService.findAllMatchingRecords(userInfoToFind);
+      await new Promise((resolve) => setTimeout(resolve, 5000));
       res.status(200).json(matchingRecords);
     } catch (error) {
       console.error(`Error during processing: ${error}`);
