@@ -1,6 +1,6 @@
 This is test project for job Application.
 
-It should Display all records from json corresponding to email (nessecary) and/or number (optional)
+It should Display all records from json corresponding to email (necessary) and/or number (optional)
 
 Build instruction
 
