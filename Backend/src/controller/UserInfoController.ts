@@ -2,7 +2,6 @@ import { UserInfoService } from "../services/UserInfoService";
 import { Request, Response } from "express";
 import { ValidationError } from "../errors/ValidationError";
 import { UserInfo } from "shared/index";
-
 export class UserInfoController {
   private userInfoService: UserInfoService;
   constructor() {
@@ -10,8 +9,9 @@ export class UserInfoController {
   }
   findMatchingRecords = async (req: Request, res: Response) => {
     try {
-      const requestedEmail = req.query.email as string | undefined;
-      const requestedNumber = req.query.number as string | undefined;
+      const requestedEmail = req.query.email ? decodeURIComponent(req.query.email as string) : undefined;
+
+      const requestedNumber = req.query.number ? decodeURIComponent(req.query.number as string) : undefined;
 
       const userInfoToFind: UserInfo = {
         email: requestedEmail as string,

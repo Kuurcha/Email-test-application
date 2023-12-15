@@ -27,12 +27,16 @@ const mapResponseToUserInfo = async (response: Response): Promise<UserInfo[]> =>
 export const findMatchingRecords = async (requestData: UserInfo, signal: AbortSignal): Promise<UserInfo[]> => {
   try {
     const params = new URLSearchParams();
-    params.append("email", encodeURIComponent(requestData.email));
+    params.set("email", encodeURIComponent(requestData.email));
+
     if (requestData.number) {
-      params.append("number", encodeURIComponent(requestData.number));
+      params.set("number", encodeURIComponent(requestData.number));
     }
 
-    const response = await fetch(`${API_BASE_URL}/find-matching-records?${params.toString()}`, {
+    const url = new URL(`${API_BASE_URL}/find-matching-records`);
+    url.search = params.toString();
+
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
